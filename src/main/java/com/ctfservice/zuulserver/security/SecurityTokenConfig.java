@@ -38,10 +38,12 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/content").hasAuthority("admin")
                     .antMatchers(HttpMethod.PUT,"/content/**").hasAuthority("admin")
                     .antMatchers(HttpMethod.DELETE,"/content/**").hasAuthority("admin")
+                    .antMatchers(HttpMethod.GET, "/user/**").hasAuthority("admin")
                     //accessible by user
                     //accessible by public
                     .antMatchers(HttpMethod.GET,"/content/**").permitAll()
                     .antMatchers(HttpMethod.OPTIONS,"**").permitAll()
+
                     // Any other request must be authenticated
                     .anyRequest().authenticated();
 
