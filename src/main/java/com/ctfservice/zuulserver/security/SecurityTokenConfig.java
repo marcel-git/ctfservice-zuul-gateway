@@ -5,6 +5,8 @@ import com.ctfservice.zuulserver.Filter.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +20,17 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtConfig jwtConfig;
+
+    /**
+     * Grants the admin role every right the user role has.
+     * @return a role hierarchy
+     */
+    @Bean
+    public RoleHierarchy roleHierarchy(){
+        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+        hierarchy.setHierarchy("admin > user");
+        return hierarchy;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -40,6 +53,8 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.DELETE,"/content/**").hasAuthority("admin")
                     .antMatchers(HttpMethod.GET, "/user/**").hasAuthority("admin")
                     //accessible by user
+                    .antMatchers(HttpMethod.GET,"/challenge/**").hasAuthority("user")
+                    .antMatchers(HttpMethod.GET,"/verify/**").hasAuthority("user")
                     //accessible by public
                     .antMatchers(HttpMethod.GET,"/content/**").permitAll()
                     .antMatchers(HttpMethod.OPTIONS,"**").permitAll()
