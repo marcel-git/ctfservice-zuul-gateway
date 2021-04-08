@@ -23,6 +23,14 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         this.jwtConfig = jwtConfig;
     }
 
+    /**
+     * Filter that will be run if a request to the server was made. It will validate the token, stored in the header.
+     * @param request
+     * @param response
+     * @param chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         // 1. get the authentication header. Tokens are supposed to be passed in the authentication header

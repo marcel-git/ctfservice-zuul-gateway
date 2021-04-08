@@ -32,6 +32,11 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
         return hierarchy;
     }
 
+    /**
+     * Configures the gateway, so that every  role can only access their resources
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
@@ -54,7 +59,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET, "/user/**").hasAuthority("admin")
                     //accessible by user
                     .antMatchers(HttpMethod.GET,"/challenge/**").hasAuthority("user")
-                    .antMatchers(HttpMethod.GET,"/verify/**").hasAuthority("user")
+                    .antMatchers(HttpMethod.POST,"/verify/**").hasAuthority("user")
                     //accessible by public
                     .antMatchers(HttpMethod.GET,"/content/**").permitAll()
                     .antMatchers(HttpMethod.OPTIONS,"**").permitAll()
