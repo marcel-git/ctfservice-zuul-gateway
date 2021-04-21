@@ -57,6 +57,9 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.PUT,"/content/**").hasAuthority("admin")
                     .antMatchers(HttpMethod.DELETE,"/content/**").hasAuthority("admin")
                     .antMatchers(HttpMethod.GET, "/user/**").hasAuthority("admin")
+                    .antMatchers(HttpMethod.POST, "/challenge").hasAuthority("admin")
+                    .antMatchers(HttpMethod.PUT, "/challenge/**").hasAuthority("admin")
+                    .antMatchers(HttpMethod.DELETE, "/challenge/**").hasAuthority("admin")
                     //accessible by user
                     .antMatchers(HttpMethod.GET,"/challenge/**").hasAuthority("user")
                     .antMatchers(HttpMethod.POST,"/verify/**").hasAuthority("user")
